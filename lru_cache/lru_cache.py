@@ -16,8 +16,10 @@ class LRUCache:
     """
 
     def __init__(self, limit=10):
+        self.limit = limit
         self.dll = DoublyLinkedList()
         self.dict = {}
+        self.count = 0
 
     """
     Retrieves the value associated with the given key. Also
@@ -45,12 +47,36 @@ class LRUCache:
     def set(self, key, value):
         # When receiving an input, we check first if the input exists already in our LRU
         if key in self.dict:
-            print("yes")
-        else:
-            print("no")
+            # If the input exists, we update the value in the
+            # dictionary with the new given value
+            # self.dict.update(key=value)
+            self.dict[key] = value
+            # then move the input to the tail
+            # (most recently accessed) of the linked list
+            self.dll.move_to_end(key)
+        else:  # if the input does not exist in our LRU
+            # check if LRU is full
+            if self.count < self.limit:
+                # if not full, add to dictionary
+                self.dict[key] = value
+                # then add to tail (most recently accessed) in the linked list
+                self.dll.add_to_tail(key)
+                # increment count by 1
+                self.count += 1
+            else:  # if LRU is full
+                # delete head of linked list
+                removeKey = self.dll.remove_from_head()
+                # add input to tail of linked list (most recently accessed)
+                self.dll.add_to_tail(key)
+                # delete previous head of linked list (key) from the dictionary
+                del self.dict[removeKey]
+                # add new input (key) to the dictionary
+                self.dict[key] = value
 
         return self
 
 
 testLRU = LRUCache()
 testLRU.set("orange", "you glad")
+testLRU.set("banana", "I didn't say")
+print(testLRU.count)
