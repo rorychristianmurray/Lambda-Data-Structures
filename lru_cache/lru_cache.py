@@ -1,9 +1,9 @@
 from doubly_linked_list import DoublyLinkedList
 
-dll = DoublyLinkedList()
-print("dll : ", dll)
-dll.add_to_tail(12)
-print("dll : ", dll.tail.value)
+# dll = DoublyLinkedList()
+# print("dll : ", dll)
+# dll.add_to_tail(12)
+# print("dll : ", dll.tail.value)
 
 
 class LRUCache:
@@ -15,7 +15,7 @@ class LRUCache:
     to every node stored in the cache.
     """
 
-    def __init__(self, dll, dict, limit=10):
+    def __init__(self, limit=10):
         self.dll = DoublyLinkedList()
         self.dict = {}
 
@@ -28,6 +28,7 @@ class LRUCache:
     """
 
     def get(self, key):
+        # if accessed, move value to the tail
         pass
 
     """
@@ -42,4 +43,14 @@ class LRUCache:
     """
 
     def set(self, key, value):
-        pass
+        # When receiving an input, we check first if the input exists already in our LRU
+        if key in self.dict:
+            print("yes")
+        else:
+            print("no")
+
+        return self
+
+
+testLRU = LRUCache()
+testLRU.set("orange", "you glad")
