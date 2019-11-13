@@ -113,6 +113,7 @@ class DoublyLinkedList:
     List and inserts it as the new tail node of the List."""
 
     def move_to_end(self, node):
+        print("node : ", node)
         if node is self.tail:
             return
         value = node.value

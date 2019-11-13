@@ -1,4 +1,10 @@
+# from doubly_linked_list import DoublyLinkedList
+# from doubly_linked_list import ListNode
+
 from doubly_linked_list import DoublyLinkedList
+import sys
+sys.path.append('../doubly_linked_list')
+
 
 # dll = DoublyLinkedList()
 # print("dll : ", dll)
@@ -18,7 +24,7 @@ class LRUCache:
     def __init__(self, limit=10):
         self.limit = limit
         self.dll = DoublyLinkedList()
-        self.dict = {}
+        self.storage = {}
         self.count = 0
 
     """
@@ -30,8 +36,21 @@ class LRUCache:
     """
 
     def get(self, key):
-        # if accessed, move value to the tail
-        pass
+        # if key exists
+        # print("self.storage : ", self.storage)
+        # print("\n\n\n")
+        # print("self.storage[key].value : ", self.storage[key].value)
+        # print("\n\n\n")
+        if key in self.storage:
+            # move the key to the tail of the dll (mra)
+            currNode = self.storage[key]
+            print("currNode : ", currNode)
+            self.dll.move_to_end(currNode)
+            # retrieve associated value from storage
+            return currNode.value[1]
+        else:  # if key does not exist
+            print(f"No such key : {key} exists")
+            return None
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -45,38 +64,57 @@ class LRUCache:
     """
 
     def set(self, key, value):
+
         # When receiving an input, we check first if the input exists already in our LRU
-        if key in self.dict:
+        # print("self.storage[key] : ", self.storage[key])
+        if key in self.storage:
             # If the input exists, we update the value in the
-            # dictionary with the new given value
-            # self.dict.update(key=value)
-            self.dict[key] = value
+            # storageionary with the new given value
+            # self.storage.update(key=value)
+            currNode = self.storage[key]
+            currNode.value = (key, value)
             # then move the input to the tail
             # (most recently accessed) of the linked list
-            self.dll.move_to_end(key)
-        else:  # if the input does not exist in our LRU
-            # check if LRU is full
-            if self.count < self.limit:
-                # if not full, add to dictionary
-                self.dict[key] = value
-                # then add to tail (most recently accessed) in the linked list
-                self.dll.add_to_tail(key)
-                # increment count by 1
-                self.count += 1
-            else:  # if LRU is full
-                # delete head of linked list
-                removeKey = self.dll.remove_from_head()
-                # add input to tail of linked list (most recently accessed)
-                self.dll.add_to_tail(key)
-                # delete previous head of linked list (key) from the dictionary
-                del self.dict[removeKey]
-                # add new input (key) to the dictionary
-                self.dict[key] = value
+            self.dll.move_to_end(currNode)
+            return
+         # if the input does not exist in our LRU
+         # check if LRU is full
 
-        return self
+        elif self.count < self.limit:
+            # if not full, add to storage
+            # then add to tail (most recently accessed) in the linked list
+            self.dll.add_to_tail((key, value))
+            self.storage[key] = self.dll.tail
+            # increment count by 1
+            self.count += 1
+            print("self.dll.head.value[0]", self.dll.head.value[0])
+        elif self.count >= self.limit:  # if LRU is full
+            print("count : ", self.count)
+            print("limit : ", self.limit)
+            print("\n\n\n")
+            # print("self.storage elif : ", self.storage)
+            print("self.dll.head : ", self.dll.head)
+            print("self.dll.head.value[0] : ", self.dll.head.value[0])
+            print("\n\n\n")
+            # delete previous head of linked list (key, val) from thestorage
+            del self.storage[self.dll.head.value[0]]
+            self.dll.remove_from_head()
+            # add new input (key) to the storage
+            # self.storage[key] = (key, value)
+            self.dll.add_to_tail((key, value))
+            self.storage[key] = self.dll.tail
+            # delete head of linked list
+            # add input to tail of linked list (most recently accessed)
 
 
 testLRU = LRUCache()
 testLRU.set("orange", "you glad")
-testLRU.set("banana", "I didn't say")
-print(testLRU.count)
+# testLRU.set("banana", "I didn't say")
+# testLRU.set("ten", "its ten")
+# print("count : ", testLRU.count)
+print("get : ", testLRU.get('orange'))
+
+
+# print("testLRU.dll.head.value : ", testLRU.dll.head.value.value)
+# print("testLRU.dll.head.value : ", testLRU.dll.tail.value)
+# # print()
