@@ -100,7 +100,7 @@ class LRUCache:
             del self.storage[self.dll.head.value[0]]
             self.dll.remove_from_head()
             # add new input (key) to the storage
-            # self.storage[key] = (key, value)
+            self.storage[key] = (key, value)
             self.dll.add_to_tail((key, value))
             self.storage[key] = self.dll.tail
             # delete head of linked list

@@ -1,7 +1,7 @@
-import sys
-sys.path.append('../queue_and_stack')
-from dll_queue import Queue
-from dll_stack import Stack
+# from dll_stack import Stack
+# from dll_queue import Queue
+# import sys
+# sys.path.append('../queue_and_stack')
 
 
 class BinarySearchTree:
@@ -12,21 +12,64 @@ class BinarySearchTree:
 
     # Insert the given value into the tree
     def insert(self, value):
-        pass
+        # set base case, initiate BST
+        if self.value is None:
+            self.value = value
+            return
+
+        if value < self.value:  # go left
+            # check if we are at end of BST
+            if not self.left:
+                self.left = BinarySearchTree(value)
+            else:  # keep moving but down the left side
+                return self.left.insert(value)
+        else:
+            if not self.right:
+                self.right = BinarySearchTree(value)
+            else:  # keep moving but down the right side
+                return self.right.insert(value)
 
     # Return True if the tree contains the value
     # False if it does not
+
     def contains(self, target):
-        pass
+        if target == self.value:  # check for equality
+            return True
+        if target < self.value:  # look left
+            if not self.left:  # if self.left is None (end)
+                return False
+            else:  # keep looking but down the left side
+                return self.left.contains(target)
+        else:
+            if not self.right:  # if self.right is None (end)
+                return False
+            else:
+                # keep looking but down the right side
+                return self.right.contains(target)
 
     # Return the maximum value found in the tree
+
     def get_max(self):
-        pass
+        # check whether at end of list on right
+        if self.right is None:
+            return self.value
+        else:  # recursively call on right
+            return self.right.get_max()
 
     # Call the function `cb` on the value of each node
     # You may use a recursive or iterative approach
+
     def for_each(self, cb):
-        pass
+        if self.left:  # if self.left exists
+            return self.left.for_each(cb)
+        if self.right:
+            return self.right.for_each(cb)
+
+        # # check whether at end of list on left
+        # if self.left is None:
+        #     return cb()
+        # else:  # recursively call on right
+        #     return self.left.for_each()
 
     # DAY 2 Project -----------------------
 
