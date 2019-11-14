@@ -1,7 +1,5 @@
-# from dll_stack import Stack
-# from dll_queue import Queue
-# import sys
-# sys.path.append('../queue_and_stack')
+from dll_stack_bst import Stack
+from dll_queue_bst import Queue
 
 
 class BinarySearchTree:
@@ -62,6 +60,8 @@ class BinarySearchTree:
     # Call the function `cb` on the value of each node
     # You may use a recursive or iterative approach
 
+    # this is a dft
+
     def for_each(self, cb):
         cb(self.value)
         if self.left:  # if self.left exists
@@ -88,22 +88,39 @@ class BinarySearchTree:
     # Hint:  Use a recursive, depth first traversal
 
     def in_order_print(self, node):
-        pass
+        if node:
+            self.in_order_print(node.left)
+            print(node.value)
+            self.in_order_print(node.right)
+        return
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
+
     def bft_print(self, node):
-        pass
+        # create queue
+        queue = Queue()
+        # add root to queue
+        queue.enqueue(self)
+        while queue.len() > 0:
+            node = queue.dequeue()
+            print(node.value)
+            if node.left:
+                queue.enqueue(node.left)
+            if node.right:
+                queue.enqueue(node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
+
     def dft_print(self, node):
-        pass
+        # create stack
 
-    # STRETCH Goals -------------------------
-    # Note: Research may be required
+        # STRETCH Goals -------------------------
+        # Note: Research may be required
 
-    # Print In-order recursive DFT
+        # Print In-order recursive DFT
+
     def pre_order_dft(self, node):
         pass
 
