@@ -56,25 +56,37 @@ class BinarySearchTree:
         else:  # recursively call on right
             return self.right.get_max()
 
+        # solution II
+        # return self.right.get_max() if self.right else self.value
+
     # Call the function `cb` on the value of each node
     # You may use a recursive or iterative approach
 
     def for_each(self, cb):
+        cb(self.value)
         if self.left:  # if self.left exists
-            return self.left.for_each(cb)
-        if self.right:
-            return self.right.for_each(cb)
+            self.left.for_each(cb)
+        if self.right:  # if self.right exists
+            self.right.for_each(cb)
 
-        # # check whether at end of list on left
-        # if self.left is None:
-        #     return cb()
-        # else:  # recursively call on right
-        #     return self.left.for_each()
+        # stack = []
+        # stack.append(self)
+
+        # [curr_node, r1, r2, r2, l1, l2, l3]
+
+        # while len(stack):
+        #     current_node = stack.pop()
+        #     if current_node.right:
+        #         stack.append(current_node.right)
+        #     if current_node.left:
+        #         stack.append(current_node.left)
+        #     cb(current_node.value)
 
     # DAY 2 Project -----------------------
 
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
+
     def in_order_print(self, node):
         pass
 
